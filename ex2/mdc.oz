@@ -16,14 +16,19 @@ end
 
 fun {Tokenize Lexemes}
     case Lexemes of nil then nil    %if Lexemes is empty return nil
-    [] Lexeme|Lexemes then Token in %if Lexeme is a list, check head 
-        if Lexeme == "+" then Token = operator(type:plus)           %operator
-        elseif Lexeme == "-" then Token = operator(type:minus)
-        elseif Lexeme == "*" then Token = operator(type:multiply)
-        elseif Lexeme == "/" then Token = operator(type:divide)        
-        else Token = number({String.toInt Lexeme})                  %number
+    [] Head|Tail then Token in %if Lexeme is a list, check head 
+        if Head == "+" then Token = operator(type:plus)           
+        elseif Head == "-" then Token = operator(type:minus)
+        elseif Head == "*" then Token = operator(type:multiply)
+        elseif Head == "/" then Token = operator(type:divide)
+        elseif Head == "p" then Token = cmd(print)   
+        elseif Head == "d" then Token = cmd(duplicate)      
+        elseif Head == "i" then Token = cmd(flip)  
+        elseif Head == "^" then Token = cmd(inverse)
+        elseif {String.isFloat Head} then Token = number({String.toFloat Head})
+        else Token = number({String.toInt Head})                  
         end
-        Token|{Tokenize Lexemes} %using tail to recursively return tokens of lexemes
+        Token|{Tokenize Tail} %using tail to recursively return tokens of lexemes
     end 
 end
 
@@ -44,17 +49,40 @@ fun {Interpret Tokens}
         divide:Float.'/'
     )
 
+    % Commands = cmd(
+    %     print:proc {$ Top|Rest} {Show number(Top)} end
+    %     duplicate:fun {$ Top|Rest} Top|Top|Rest end
+    % )
+
+
     fun {Iterate Stack Tokens}
-        case Tokens of nil then Stack           %token is empty, return Stack
-        [] number(Integer)|Tail then            %if head is number, add to Stack
-        {Iterate Integer|Stack Tail}         
+        case Tokens of nil then Stack           %Tokens (input) is empty, return Stack
+        [] number(Int)|Tail then                %if head is number, add to Stack
+            {Iterate Int|Stack Tail}         
         [] operator(type:Op)|Tail then          %if head is operator
-        Int1|Int2|Rest = Stack in               %get first two element of the stack, perform operation, push result to stack
-        {Iterate {Operations.Op Int2 Int1}|Rest Tail}   
+            Int1|Int2|Rest = Stack in           %get first two element of the stack, perform operation, push result to stack
+            {Iterate {Operations.Op Int2 Int1}|Rest Tail}   
+        [] cmd(Command)|Tail then
+         if Command == print then
+            {Show {List.reverse {Tokenize Stack}}}
+            {Iterate Stack Tail}
+         elseif Command == duplicate then
+            {Iterate Stack.1|Stack Tail} 
+        elseif Command == flip then
+            Top|Rest = Stack in
+            {Iterate ~Top|Rest Tail}
+        elseif Command == inverse then
+            Top|Rest = Stack in
+            {Iterate 1.0/Top|Rest Tail}
+         else
+            {Iterate Stack Tail}
+        end
         end
     end
 in
-  % return the calculation
-  {Iterate nil Tokens}
+  % return the stack tokenized and reversed 
+  {List.reverse {Tokenize {Iterate nil Tokens}}}
+
+
 end 
 

@@ -104,3 +104,4 @@ fun {Position List Element}
         else nil end            %tail is empty
     end
 end
+
