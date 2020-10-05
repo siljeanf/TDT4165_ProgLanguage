@@ -1,4 +1,4 @@
-unctor
+functor
 import
    System(show:Show)
    Application(exit:Exit)

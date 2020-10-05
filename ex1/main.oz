@@ -5,7 +5,7 @@ import
 define
   
 
-    {System.showInfo {'hello world' }}
+    {Show 'hello world' }
 
     {Exit 0}
 end
