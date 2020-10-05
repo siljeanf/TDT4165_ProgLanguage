@@ -31,3 +31,25 @@ For product of list elements U, the neutral element, should have value 1 as this
 -------------------------------------------------------------------------------------------------------------------------
 ## Instantiation
 
+4: run in test4.oz, implemented and commented in task4.oz. Use makefile by typing "make run4"
+-------------------------------------------------------------------------------------------------------------------------
+## Embedding
+
+5a: run in test5.oz, implemented and commented in task5.oz. Use makefile by typing "make run5"
+
+5b: Give a high-level desciption of your solution and point out any limitations you find relevant
+The function builds a datastructure, in this case a hierachy of tuples. This makes it possible to count endlessly as it returns a tuple  with a call to itself incremented by 1.
+Limitations: In order to get each new element of the tuple of tuples you have to make a new funciton call. For example you this is not a valid command {LazyNumberGenerator 0}.2.1, but instead you have to write: {{{LazeNumberGenerator 0}.2}.1}
+-------------------------------------------------------------------------------------------------------------------------
+## Tail Recursion
+
+6a: Is your Sum function from Task 2 tail recursive? If yes, explain why. If not, implement a tail recursive
+version and explain how your changes made it so.
+The Sum function in Task 2 is recursive, but not tail recursive as it waits for the rhs expression to evaluate before adding it to the head. In the file Task6.oz a tail recursive version of the function is implemented. This new implementation is waiting for the recursive calls to evaluate itself by passing the accumulating sum as an argument untill it gets to the end of the list.
+
+6b: What is the benefit of tail recursion in Oz?
+The tail recursive functions can be optimized by the compiler. As the recursive call is the last statemenet in the current function, there is no need to store the function adress in the stack. Thus the function calls can be faster.
+
+6c: Do all programming languages that allow recursion benefit from tail recursion? Why/why not?
+At least all functional programming languages benefit from tail recursion from the reason considering stack calls as explained above. In order to answer the question for all programming languages i think it depends on the compiler and implementation of the language. 
+-------------------------------------------------------------------------------------------------------------------------
