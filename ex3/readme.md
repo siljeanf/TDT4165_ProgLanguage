@@ -10,6 +10,7 @@ Procedural abstractions makes the code easier to read, understand, modify and re
 
 1c: What is the difference between a procedure and a function?
 A procedure is a statement, while a function is an expression, meaning it calculates a result based on input at returns it. The procedure executes a series of commands, not necessarily returning a value even though it could.  
+
 -------------------------------------------------------------------------------------------------------------------------
 ## Genericity
 
@@ -28,10 +29,12 @@ The right/left-fold will change the order of the substracting which affects the 
 
 3e: What is a good value for U when using RightFold to implement the product of list elements?
 For product of list elements U, the neutral element, should have value 1 as this is the identity element for the operaiton multiplication.
+
 -------------------------------------------------------------------------------------------------------------------------
 ## Instantiation
 
 4: run in test4.oz, implemented and commented in task4.oz. Use makefile by typing "make run4"
+
 -------------------------------------------------------------------------------------------------------------------------
 ## Embedding
 
@@ -40,6 +43,7 @@ For product of list elements U, the neutral element, should have value 1 as this
 5b: Give a high-level desciption of your solution and point out any limitations you find relevant
 The function builds a datastructure, in this case a hierachy of tuples. This makes it possible to count endlessly as it returns a tuple  with a call to itself incremented by 1.
 Limitations: In order to get each new element of the tuple of tuples you have to make a new funciton call. For example you this is not a valid command {LazyNumberGenerator 0}.2.1, but instead you have to write: {{{LazeNumberGenerator 0}.2}.1}
+
 -------------------------------------------------------------------------------------------------------------------------
 ## Tail Recursion
 
@@ -52,4 +56,5 @@ The tail recursive functions can be optimized by the compiler. As the recursive 
 
 6c: Do all programming languages that allow recursion benefit from tail recursion? Why/why not?
 At least all functional programming languages benefit from tail recursion from the reason considering stack calls as explained above. In order to answer the question for all programming languages i think it depends on the compiler and implementation of the language. 
+
 -------------------------------------------------------------------------------------------------------------------------
